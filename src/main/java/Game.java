@@ -1,40 +1,47 @@
 import java.util.Scanner;
 
 public class Game {
-    public static void play() {
+
+
+    public void play() {
         //initializing variable
 
-        byte winner = 0;
-        char[] box = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
-        System.out.println("Enter box number to select. Enjoy!\n");
+
+        Box box = new Box();
+        box.setPositionNumbers(); // setting starting tip about position numbers
 
         boolean boxEmpty = false;
+        GameResult gameResult = GameResult.IN_PROCESS;
 
+        //printing starting text
+        System.out.println("Enter box number to select. Enjoy!\n");
+
+        //principal cycle
         while (true) {
 
             //printing the box
-            Box.printBox(box);
+            box.printBox();
 
             //resettableIfNeeded
             boxEmpty = resetBoxIfNeeded(box, boxEmpty);
 
             //print "game over" output if winner is 1,2 or 3
-            if (isGameResultDecided(winner)) break;
+            if (isGameResultDecided(gameResult)) break;
 
             //move logic
             moveLogic(box);
 
 
             //check if user has won
-            if(Box.isUserHasWon(box)) {
-                winner = 1;
+            if(box.isUserHasWon()) {
+                gameResult = GameResult.WIN;
                 continue;
             }
 
 
             //check if it is a draw
-            if(Box.isDraw(box)){
-                winner = 3;
+            if(box.isDraw()){
+                gameResult = GameResult.DRAW;
                 continue;
             }
 
@@ -42,8 +49,8 @@ public class Game {
             computerMoveLogic(box);
 
             //check if computer has won
-            if(Box.isComputerHasWon(box)){
-                winner = 2;
+            if(box.isComputerHasWon()){
+                gameResult = GameResult.LOSE;
             }
         }
 
@@ -51,38 +58,41 @@ public class Game {
 
 
 
-    static boolean resetBoxIfNeeded(char[] box, boolean boxEmpty) {
+    enum GameResult{
+        WIN,LOSE,DRAW, IN_PROCESS
+    }
+    static boolean resetBoxIfNeeded(Box box, boolean boxEmpty) {
         if (!boxEmpty) {
             for (int i = 0; i < 9; i++)
-                box[i] = ' ';
+                box.setValue(i,' ');
         }
         return true;
     }
 
-    static boolean isGameResultDecided(byte winner) {
-        if (winner == 1) {
+    static boolean isGameResultDecided(final GameResult variant) {
+        if (GameResult.WIN.equals(variant)) {
             System.out.println("You won the game!\nCreated by Shreyas Saha. Thanks for playing!");
             return true;
-        } else if (winner == 2) {
+        } else if (GameResult.LOSE.equals(variant)) {
             System.out.println("You lost the game!\nCreated by Shreyas Saha. Thanks for playing!");
             return true;
-        } else if (winner == 3) {
+        } else if (GameResult.DRAW.equals(variant)) {
             System.out.println("It's a draw!\nCreated by Shreyas Saha. Thanks for playing!");
             return true;
         }
         return false;
     }
 
-    static void moveLogic(char[] box) {
+    static void moveLogic(Box box) {
         Scanner scan = new Scanner(System.in);
         byte input;
         while (true) {
             input = scan.nextByte();
             if (input > 0 && input < 10) {
-                if (box[input - 1] == 'X' || box[input - 1] == 'O')
+                if (box.getValue(input - 1) == 'X' || box.getValue(input - 1) == 'O')
                     System.out.println("That one is already in use. Enter another.");
                 else {
-                    box[input - 1] = 'X';
+                    box.setValue(input-1, 'X');
                     break;
                 }
             } else
@@ -92,12 +102,12 @@ public class Game {
 
 
 
-    static void computerMoveLogic(char[] box){
+    static void computerMoveLogic(Box box){
         byte rand;
         while (true) {
             rand = (byte) (Math.random() * (9 - 1 + 1) + 1);
-            if (box[rand - 1] != 'X' && box[rand - 1] != 'O') {
-                box[rand - 1] = 'O';
+            if (box.getValue(rand - 1) != 'X' && box.getValue(rand - 1) != 'O') {
+                box.setValue(rand - 1, 'O');
                 break;
             }
         }
