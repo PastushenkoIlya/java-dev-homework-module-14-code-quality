@@ -1,17 +1,12 @@
 import java.util.Scanner;
 
 public class Game {
-
-
     public void play() {
         //initializing variable
-
-
-        Box box = new Box();
-        box.setPositionNumbers(); // setting starting tip about position numbers
-
         boolean boxEmpty = false;
         GameResult gameResult = GameResult.IN_PROCESS;
+        Box box = new Box();
+        box.setPositionNumbers(); // setting starting tip about position numbers
 
         //printing starting text
         System.out.println("Enter box number to select. Enjoy!\n");
@@ -26,11 +21,11 @@ public class Game {
             boxEmpty = resetBoxIfNeeded(box, boxEmpty);
 
             //print "game over" output if winner is 1,2 or 3
-            if (isGameResultDecided(gameResult)) break;
-
+            if (isGameResultDecided(gameResult)) {
+                break;
+            }
             //move logic
             moveLogic(box);
-
 
             //check if user has won
             if(box.isUserHasWon()) {
@@ -38,13 +33,11 @@ public class Game {
                 continue;
             }
 
-
             //check if it is a draw
             if(box.isDraw()){
                 gameResult = GameResult.DRAW;
                 continue;
             }
-
             //computer move logic
             computerMoveLogic(box);
 
@@ -53,11 +46,7 @@ public class Game {
                 gameResult = GameResult.LOSE;
             }
         }
-
     }
-
-
-
     enum GameResult{
         WIN,LOSE,DRAW, IN_PROCESS
     }
@@ -68,7 +57,6 @@ public class Game {
         }
         return true;
     }
-
     static boolean isGameResultDecided(final GameResult variant) {
         if (GameResult.WIN.equals(variant)) {
             System.out.println("You won the game!\nCreated by Shreyas Saha. Thanks for playing!");
@@ -82,7 +70,6 @@ public class Game {
         }
         return false;
     }
-
     static void moveLogic(Box box) {
         Scanner scan = new Scanner(System.in);
         byte input;
@@ -99,9 +86,6 @@ public class Game {
                 System.out.println("Invalid input. Enter again.");
         }
     }
-
-
-
     static void computerMoveLogic(Box box){
         byte rand;
         while (true) {
@@ -112,5 +96,4 @@ public class Game {
             }
         }
     }
-
 }
