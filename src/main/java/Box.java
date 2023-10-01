@@ -9,7 +9,6 @@ public class Box {
     public void setValue(int position, char value){
         box[position] = value;
     }
-
     public boolean isUserHasWon() {
         return ((box[0] == 'X' && box[1] == 'X' && box[2] == 'X') || (box[3] == 'X' && box[4] == 'X' && box[5] == 'X') || (box[6] == 'X' && box[7] == 'X' && box[8] == 'X') ||
                 (box[0] == 'X' && box[3] == 'X' && box[6] == 'X') || (box[1] == 'X' && box[4] == 'X' && box[7] == 'X') || (box[2] == 'X' && box[5] == 'X' && box[8] == 'X') ||
@@ -28,7 +27,6 @@ public class Box {
         }
         return true;
     }
-
     public void printBox() {
         System.out.println("\n\n " + box[0] + " | " + box[1] + " | " + box[2] + " ");
         System.out.println("-----------");

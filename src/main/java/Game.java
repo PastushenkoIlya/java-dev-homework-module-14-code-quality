@@ -6,33 +6,27 @@ public class Game {
         boolean boxEmpty = false;
         GameResult gameResult = GameResult.IN_PROCESS;
         Box box = new Box();
-        box.setPositionNumbers(); // setting starting tip about position numbers
-
+        // setting starting tip about position numbers
+        box.setPositionNumbers();
         //printing starting text
         System.out.println("Enter box number to select. Enjoy!\n");
-
         //principal cycle
         while (true) {
-
             //printing the box
             box.printBox();
-
             //resettableIfNeeded
             boxEmpty = resetBoxIfNeeded(box, boxEmpty);
-
             //print "game over" output if winner is 1,2 or 3
             if (isGameResultDecided(gameResult)) {
                 break;
             }
             //move logic
             moveLogic(box);
-
             //check if user has won
             if(box.isUserHasWon()) {
                 gameResult = GameResult.WIN;
                 continue;
             }
-
             //check if it is a draw
             if(box.isDraw()){
                 gameResult = GameResult.DRAW;
@@ -40,7 +34,6 @@ public class Game {
             }
             //computer move logic
             computerMoveLogic(box);
-
             //check if computer has won
             if(box.isComputerHasWon()){
                 gameResult = GameResult.LOSE;
